@@ -1,0 +1,53 @@
+{
+  "title": "Choose Reohob's new visual world",
+  "question": "Warmer colour, lighter type, real photography, credible to homeowners and engineers alike. The roll assigned Lagos Tropical Modernism. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Lagos Tropical Modernism",
+      "kicker": "THE ROLL",
+      "lineage": "1960s–70s Nigerian modernist architecture: breeze-block screens, louvres, terrazzo, board-marked concrete, laterite and tropical planting",
+      "thesis": "Reohob as part of the building: the language of Lagos's best sun-shading architecture, which has always been about managing the sun. Engineered, warm and local, not a generic solar template.",
+      "palette": ["#1C3B2E", "#E9E5DE", "#F5A300", "#B4532F", "#FFFFFF"],
+      "materials": ["warm concrete grey ground", "breeze-block screen pattern as frame and divider", "terrazzo-speckled panels", "deep tropical green", "laterite clay accents", "real photography of rooftops and installs"],
+      "viewport": "A full-width photograph of a sunlit Lagos rooftop array, framed on one edge by a breeze-block screen pattern. Headline set in a geometric modernist sans at medium weight (no black), with Get a Quote in marigold and WhatsApp beside it. A small live 'today's sun over Lagos' strip sits on the concrete panel below.",
+      "risk": "Pattern overuse would turn architecture into wallpaper; the screen motif must stay a frame, never a background.",
+      "raised": [
+        { "from": "challenger-polish-poster", "raise": "Each page leads with one decisive photograph, never a collage." },
+        { "from": "challenger-manga", "raise": "Solid deep-green fill is reserved for the one conversion band per page." },
+        { "from": "challenger-cracktro", "raise": "Content sits on bands and rules, not boxed cards." },
+        { "from": "challenger-sleeping-city", "raise": "The hero follows Lagos time: a daylight photo by day, a dusk photo after sunset with the battery message." },
+        { "from": "challenger-six-pack", "raise": "Every figure keeps its trend: the live sun strip stays, small and honest." },
+        { "from": "challenger-chromatophore", "raise": "Marigold marks the active state and the main action only." }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Golden Hour Lagos",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "late-afternoon real-estate and energy photography",
+      "thesis": "Sunlit, optimistic and photo-first: big golden-hour images of homes and installs, soft warm neutrals and a deep forest green, friendly medium-weight type.",
+      "palette": ["#0F3D2E", "#F7F3EC", "#F5A300", "#C8643B"],
+      "materials": ["full-bleed golden-hour photography", "soft warm neutrals", "rounded-corner photo frames", "forest-green bands"],
+      "viewport": "A full-bleed golden-hour photo of a home with panels, headline and two buttons over a soft gradient scrim at the lower left.",
+      "risk": "The most familiar of the three: it sits close to what most solar companies ship, so Reohob must win on photography and copy, not on look."
+    },
+    { "id": "challenger-sleeping-city", "label": "Sleeping City Fold", "verdict": "declined", "lineage": "surreal folded night city", "palette": ["#141b3a", "#e8c46a"], "materials": ["quilted night map"], "case": "Fuses poorly: night and dream read as cold and abstract, the opposite of the brief.", "kept": "The scene follows local time.", "hero": "https://impeccable.style/worlds/cards/dream-surreal-impossible-worlds-sleeping-city-fold-hero.webp" },
+    { "id": "challenger-chromatophore", "label": "Chromatophore Skin", "verdict": "declined", "lineage": "cephalopod signalling", "palette": ["#efe3cf", "#8a3b22"], "materials": ["living pigment"], "case": "Fuses poorly: homeowners and engineers don't read biology as power.", "kept": "One signal colour carries the active state.", "hero": "https://impeccable.style/worlds/cards/reefs-bioluminescent-nocturnal-chromatophore-skin-language-hero.webp" },
+    { "id": "challenger-manga", "label": "Manga Screentone Page", "verdict": "declined", "lineage": "weekly manga", "palette": ["#111111", "#f4f1ea"], "materials": ["screentone"], "case": "Fuses poorly: monochrome newsprint contradicts 'warmer colours'.", "kept": "Solid fill reserved for the decisive beat.", "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-manga-screentone-page-hero.webp" },
+    { "id": "challenger-polish-poster", "label": "Polish Film Poster", "verdict": "declined", "lineage": "Polish poster school", "palette": ["#6b2a5e", "#c22f2a", "#b98d3a"], "materials": ["gouache"], "case": "Fuses poorly: no grid or typeface undermines specs, prices and forms.", "kept": "One decisive image per sheet.", "hero": "https://impeccable.style/worlds/cards/posters-covers-sleeves-polish-film-poster-hero.webp" },
+    { "id": "challenger-cracktro", "label": "Cracktro Scroller", "verdict": "declined", "lineage": "demoscene title screens", "palette": ["#000000", "#f2ead8", "#f5a300"], "materials": ["emissive void"], "case": "Fuses poorly: dark and nostalgic, not warm or credible.", "kept": "Nothing boxed that doesn't need a box.", "hero": "https://impeccable.style/worlds/cards/operate-c-cracktro-scroller-queue-hero.webp" },
+    { "id": "challenger-six-pack", "label": "Night-Flight Six-Pack", "verdict": "declined", "lineage": "aircraft instruments", "palette": ["#0b0d0c", "#7cff9a"], "materials": ["luminous dials"], "case": "Fuses poorly: dark and technical, the feel you asked to move away from.", "kept": "Figures show trend as well as value.", "hero": "https://impeccable.style/worlds/cards/signals-instruments-night-flight-six-pack-hero.webp" }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "What solar installers ship, executed impeccably: clean white pages, a big rooftop photo hero, a single green brand colour, clear service sections.",
+    "palette": ["#FFFFFF", "#14211B", "#2E7D4F", "#F5A300"],
+    "materials": ["clean grid", "rooftop and product photography", "rounded cards"],
+    "viewport": "A rooftop solar photo hero with headline and two buttons, then a strip of service cards.",
+    "risk": "Indistinguishable from competitors by design."
+  },
+  "steer": true
+}

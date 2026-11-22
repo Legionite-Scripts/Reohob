@@ -1,26 +1,246 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Self-hosted variable fonts (SIL OFL, see /public/fonts). Latin-ext carries ₦ (U+20A6) where the face has it. */
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/jost-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/jost-latin-ext-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/public-sans-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/public-sans-latin-ext-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Metric-matched fallbacks to limit layout shift while fonts load */
+@font-face { font-family: "Jost Fallback"; src: local("Arial"); size-adjust: 96%; ascent-override: 104%; descent-override: 26%; }
+@font-face { font-family: "Public Sans Fallback"; src: local("Arial"); size-adjust: 101%; ascent-override: 94%; descent-override: 22%; }
+
+/*
+ * Reohob — "Lagos tropical modernism"
+ * White reading ground, warm concrete bands, deep tropical green, marigold sun,
+ * laterite accents. Jost (geometric modernist) at medium weights; Public Sans body.
+ *
+ * Token names are kept from the first build so components stay stable:
+ *   ink = green-black text · night = deep tropical green · chart = concrete
+ *   flare = laterite · moon = text on green
+ */
+
+@theme {
+  --color-paper: #ffffff;
+  --color-chart: #ece9e3;          /* warm concrete band */
+  --color-chart-deep: #e2ded5;     /* concrete, one step darker (hover, inset) */
+  --color-grid: #dbd6cc;           /* hairlines */
+  --color-rule: #7d786d;           /* control outlines: 4.4:1 on white, 3.6:1 on concrete */
+  --color-ink: #14261d;            /* green-black text: 15.9:1 white, 13.1:1 concrete */
+  --color-ink-2: #3f5248;          /* secondary text: 8.4:1 white, 6.9:1 concrete */
+  --color-ink-3: #56665d;          /* captions: 6.1:1 white, 5.0:1 concrete */
+  --color-night: #1c3b2e;          /* deep tropical green: conversion band, footer */
+  --color-night-2: #24493a;        /* raised panel on green */
+  --color-night-rule: #3b6150;
+  --color-moon: #d3e2d8;           /* secondary text on green: 9.1:1 */
+  --color-leaf: #2f6b4f;           /* secondary green, links on white 6.3:1 */
+  --color-sun: #f5a300;            /* main action + active state. Never text on white. */
+  --color-sun-soft: #fff0c7;
+  --color-sun-deep: #8a5400;       /* sun-family text: 6.3:1 white */
+  --color-flare: #b4532f;          /* laterite: accents, chart output curve; text only ≥ 18px on concrete */
+  --color-ok: #1d6b45;
+  --color-ok-wash: #eff7f1;
+  --color-error: #b3261e;
+  --color-error-wash: #fff5f3;
+  --color-sun-hover: #ffb31f;
+
+  --font-display: "Jost", "Jost Fallback", "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Public Sans", "Public Sans Fallback", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: light;
+    --header-h: 4.5rem;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  p { text-wrap: pretty; }
+
+  ::selection { background: var(--color-sun); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 3px solid var(--color-sun);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-ink);
+    border-radius: 0;
+  }
+  .on-night :focus-visible { box-shadow: 0 0 0 6px var(--color-paper); }
+
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+
+  input, select, textarea { caret-color: var(--color-flare); }
+
+  * { scrollbar-color: var(--color-rule) transparent; scrollbar-width: thin; }
+
+  summary { cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+}
+
+@layer components {
+  /* Display face. Kept as three names from the first build; all are Jost now (no width axis). */
+  .font-wide, .font-semiwide { font-family: var(--font-display); letter-spacing: -0.015em; }
+  .font-cond { font-family: var(--font-display); }
+
+  /*
+   * Heading steps. One named step per role, so pages cannot drift:
+   *   h-page    page title (H1 on inner pages)
+   *   h-chapter long-page chapter (Products sections, green-band statements)
+   *   h-section section title (H2)
+   *   h-sub     sub-section / long-form H2
+   *   h-block   block title (H3)
+   * Medium weights only: the brand speaks calmly.
+   */
+  .h-page, .h-chapter, .h-section, .h-sub, .h-block {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+  .h-page { font-size: clamp(2.25rem, 4.6vw, 4rem); font-weight: 500; line-height: 1.06; letter-spacing: -0.025em; }
+  .h-chapter { font-size: clamp(1.9rem, 3.6vw, 3rem); font-weight: 500; line-height: 1.08; letter-spacing: -0.02em; }
+  .h-section { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 500; line-height: 1.1; }
+  .h-sub { font-size: clamp(1.375rem, 2.2vw, 1.75rem); font-weight: 600; line-height: 1.18; }
+  .h-block { font-size: 1.375rem; font-weight: 600; line-height: 1.2; }
+  .h-page, .h-chapter, .h-section { overflow-wrap: break-word; hyphens: auto; }
+
+  /* Small caps label: units, spec lines, table heads, axes. Never an eyebrow above a heading. */
+  .chart-label {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  /* Concrete. `chart-field-faint` is the band ground; `chart-field` is an empty photo plate. */
+  .chart-field-faint { background-color: var(--color-chart); }
+  .chart-field { background-color: var(--color-chart); }
+
+
+
+  .container-x {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 40rem) { .container-x { padding-inline: 1.5rem; } }
+  @media (min-width: 64rem) { .container-x { padding-inline: 2.5rem; } }
+
+  .prose-chart { max-width: 68ch; }
+  .prose-chart p + p { margin-top: 1em; }
+  .prose-chart ul { list-style: none; padding: 0; margin-top: 0.75em; }
+  .prose-chart li { position: relative; padding-left: 1.25rem; margin-top: 0.4em; }
+  .prose-chart li::before {
+    content: ""; position: absolute; left: 0; top: 0.68em;
+    width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--color-flare);
+  }
+  .prose-chart h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.375rem, 2.2vw, 1.75rem); margin-top: 2.5rem; margin-bottom: 0.75rem;
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+  .prose-chart h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+  .prose-chart a { color: var(--color-leaf); text-decoration: underline; }
+  .prose-chart > :is(p, ul, ol, div, table) + :is(p, ul, ol, div, table) { margin-top: 1rem; }
+
+  /* Placeholder flag: visible until a value is confirmed */
+  .todo-flag {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--color-sun-deep); background: var(--color-sun-soft);
+    border: 1px dashed var(--color-sun-deep);
+    padding: 0.1rem 0.4rem; line-height: 1.4; vertical-align: middle;
+  }
+  .on-night .todo-flag { color: var(--color-sun); background: transparent; border-color: var(--color-sun); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Range input styled as the chart's time cursor: a sun disc on a hairline */
+.sun-range {
+  -webkit-appearance: none; appearance: none;
+  height: 2.75rem; background: transparent; cursor: ew-resize;
 }
+.sun-range::-webkit-slider-runnable-track { height: 1px; background: var(--color-rule); }
+.sun-range::-moz-range-track { height: 1px; background: var(--color-rule); }
+.sun-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 1.75rem; height: 1.75rem; margin-top: -0.875rem; border-radius: 50%;
+  background: var(--color-sun); border: 2px solid var(--color-ink);
+  transition: transform 0.2s var(--ease-out-expo);
+}
+.sun-range::-moz-range-thumb {
+  width: 1.75rem; height: 1.75rem; border-radius: 50%;
+  background: var(--color-sun); border: 2px solid var(--color-ink);
+}
+.sun-range:active::-webkit-slider-thumb { transform: scale(1.12); }
+.sun-range:focus-visible { outline: none; box-shadow: none; }
+.sun-range:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--color-ink); outline-offset: 2px; }
+.sun-range:focus-visible::-moz-range-thumb { outline: 3px solid var(--color-ink); outline-offset: 2px; }
+.sun-range-night::-webkit-slider-runnable-track { background: var(--color-moon); }
+.sun-range-night::-moz-range-track { background: var(--color-moon); }
+.sun-range-night:focus-visible::-webkit-slider-thumb { outline-color: var(--color-paper); }
+.sun-range-night:focus-visible::-moz-range-thumb { outline-color: var(--color-paper); }
