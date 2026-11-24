@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Quote } from "lucide-react";
 import SunPathChart from "@/components/SunPathChart";
@@ -6,6 +7,7 @@ import ProjectPlate from "@/components/ProjectPlate";
 import Partners from "@/components/Partners";
 import {
   Photo,
+  PhotoHero,
   ButtonLink,
   CloseBand,
   SampleTag,
@@ -22,6 +24,14 @@ import { photos } from "@/content/photos";
 import { partners } from "@/content/partners";
 import { pageMetadata } from "@/lib/seo";
 
+/** One photograph per service group in the "What we do" index. */
+const servicePhotos: Record<string, { src: string; focus?: string }> = {
+  "power-systems": photos.roofSky,
+  "ev-charging": photos.evCharging,
+  "security-screening": photos.securityCheck,
+  "engineering-services": photos.engineersPlans,
+};
+
 export const metadata = pageMetadata({
   title: `${site.legalName} | Solar, inverter and battery systems in Lagos`,
   description:
@@ -34,21 +44,25 @@ const steps = [
     title: "Site survey",
     body: "We look at what you need to run, your roof or ground space, cabling routes and existing equipment. Phone and online consultations are free.",
     gets: "Site survey and audit report",
+    photo: photos.stepSurvey,
   },
   {
     title: "Design",
     body: "We size panels, inverter and batteries to your loads and hours of backup, and draw up the system and a bill of quantities.",
     gets: "System design, preliminary BOQ and quotation",
+    photo: photos.stepDesign,
   },
   {
     title: "Installation",
     body: `In Lagos we install within ${site.installation.lagosHours} of payment being confirmed; elsewhere on a date we agree with you. Batteries get their first full charge before use.`,
     gets: "Installed, tested system and a handover walk-through",
+    photo: photos.stepInstall,
   },
   {
     title: "Support",
     body: "Your warranty, maintenance visits and call-outs come from the same team that installed the system.",
     gets: "Warranty, maintenance and after-sales support",
+    photo: photos.stepSupport,
   },
 ];
 
@@ -66,33 +80,23 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero: one decisive photograph, the promise, two ways to act ── */}
-      <section className="border-b border-grid" aria-labelledby="hero-title">
-        <div className="container-x grid gap-10 pt-10 pb-12 sm:pt-14 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14 lg:pt-16 lg:pb-16">
-          <div className="flex flex-col justify-center">
-            <h1 id="hero-title" className="font-wide text-[clamp(2.6rem,5.4vw,4.75rem)] leading-[1.02] font-medium tracking-[-0.03em]">
+      <PhotoHero photo={photos.crewRoof} tall as="section" labelledBy="hero-title">
+            <h1 id="hero-title" className="font-wide max-w-[14ch] text-[clamp(2.6rem,6vw,5.25rem)] leading-[1.02] font-medium tracking-[-0.03em] text-white">
               Power that stays on, day and night.
             </h1>
-            <p className="mt-6 max-w-[46ch] text-lg text-ink-2 sm:text-xl">
+            <p className="mt-6 max-w-[46ch] text-lg text-white/90 sm:text-xl">
               {site.legalName} designs, supplies and installs solar, inverter and battery systems in Lagos, from
               1&nbsp;kVA homes to 100&nbsp;kVA commercial sites, and keeps them running.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/contact" variant="sun">Get a Quote</ButtonLink>
-              <WhatsAppButton variant="outline" />
+              <WhatsAppButton variant="night-outline" />
             </div>
             <div className="mt-6 space-y-1">
-              <LagosNow />
-              <p className="pl-[1.375rem] text-sm text-ink-3">Phone and online consultations are free.</p>
+              <LagosNow tone="night" />
+              <p className="pl-[1.375rem] text-sm text-white/75">Phone and online consultations are free.</p>
             </div>
-          </div>
-          <Photo
-            photo={photos.crewRoof}
-            ratio="aspect-[4/5] lg:aspect-[5/6]"
-            priority
-            sizes="(min-width: 1024px) 42vw, 100vw"
-          />
-        </div>
-      </section>
+      </PhotoHero>
 
       {/* ── Trust strip: a ruled data row. Unconfirmed figures only appear in placeholder mode. ── */}
       <section aria-label="Reohob in figures" className="chart-field-faint border-b border-grid">
@@ -122,9 +126,18 @@ export default function HomePage() {
             <li key={g.id} className="border-b border-grid">
               <Link
                 href={`/products-and-services#${g.id}`}
-                className="group grid gap-3 py-7 transition-colors hover:bg-chart sm:grid-cols-[minmax(0,2.5rem)_minmax(0,1fr)] lg:grid-cols-[2.5rem_1.1fr_1.4fr_auto] lg:items-center lg:gap-8"
+                className="group grid gap-4 py-6 transition-colors hover:bg-chart sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[14rem_1fr_1.3fr_auto] lg:items-center lg:gap-8"
               >
-                <span aria-hidden className="hidden size-4 rounded-full border-2 border-ink bg-ink sm:block" />
+                <div className="relative aspect-[16/9] overflow-hidden bg-chart sm:row-span-3 sm:aspect-[4/3] lg:row-span-1">
+                  <Image
+                    src={servicePhotos[g.id].src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 14rem, (min-width: 640px) 11rem, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    style={{ objectPosition: servicePhotos[g.id].focus }}
+                  />
+                </div>
                 <h3 className="h-block sm:text-[1.75rem]">{g.title}</h3>
                 <div className="sm:col-start-2 lg:col-start-auto">
                   <p className="text-ink-2">{g.summary}</p>
@@ -171,9 +184,10 @@ export default function HomePage() {
             {steps.map((s, i) => (
               <li
                 key={s.title}
-                className="relative grid grid-rows-[auto_auto_1fr_auto] border-b border-grid pt-8 pb-8 lg:border-r lg:border-b-0 lg:px-6 lg:first:pl-0 lg:last:border-r-0"
+                className="relative grid grid-rows-[auto_auto_auto_1fr_auto] border-b border-grid pt-8 pb-8 lg:border-r lg:border-b-0 lg:px-6 lg:first:pl-0 lg:last:border-r-0"
               >
                 <span aria-hidden className={`absolute -top-[9px] size-4 rounded-full border-2 border-ink bg-paper ${i === 0 ? "left-0" : "left-0 lg:left-6"}`} />
+                <Photo photo={s.photo} className="mb-5" ratio="aspect-[4/3]" sizes="(min-width: 1024px) 22vw, 100vw" />
                 <p className="font-wide text-5xl font-semibold text-ink" aria-hidden>{i + 1}</p>
                 <h3 className="h-block mt-3 text-xl">
                   <span className="sr-only">Step {i + 1}: </span>
@@ -246,6 +260,7 @@ export default function HomePage() {
             Train as an installer
           </SectionTitle>
           <div className="mt-8"><ButtonLink href="/training">See the programme</ButtonLink></div>
+          <Photo photo={photos.soldering} className="mt-10" ratio="aspect-[16/10]" sizes="(min-width: 1024px) 40vw, 100vw" />
         </div>
         <table className="w-full border-collapse text-left">
           <caption className="sr-only">Training packages and prices</caption>

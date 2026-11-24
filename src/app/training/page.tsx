@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { photos } from "@/content/photos";
 import TrainingFlow from "@/components/TrainingFlow";
-import { ButtonLink, PageHeader } from "@/components/ui";
+import { ButtonLink, PageHeader, Photo } from "@/components/ui";
 import { naira, site } from "@/config/site";
 import { courseOutlineUrl, trainingPackages } from "@/config/training";
 import { pageMetadata } from "@/lib/seo";
@@ -17,11 +17,11 @@ export default function TrainingPage() {
     <>
       <PageHeader
         title="Engineering training programme"
-        photo={photos.technicians}
+        photo={photos.electronicsBench}
         lede="Learn to install solar and inverter systems with our engineers, online or on site. Business packages add strategy sessions and mentorship to help you run installations as a business."
       >
         <ButtonLink href="#register" variant="sun">Register now</ButtonLink>
-        <ButtonLink href="#outline" variant="outline" arrow={false}>See what&apos;s included</ButtonLink>
+        <ButtonLink href="#outline" variant="night-outline" arrow={false}>See what&apos;s included</ButtonLink>
       </PageHeader>
 
       <section className="container-x grid gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_1.4fr]" aria-labelledby="about-title">
@@ -29,6 +29,7 @@ export default function TrainingPage() {
           <h2 id="about-title" className="h-section">
             Learn to install, and get a certificate of attendance
           </h2>
+          <Photo photo={photos.trainingHandsOn} className="mt-8" ratio="aspect-[4/3]" sizes="(min-width: 1024px) 38vw, 100vw" />
         </div>
         <div className="prose-chart text-lg text-ink-2">
           <p>
@@ -110,6 +111,7 @@ export default function TrainingPage() {
           <p className="mt-6 text-sm text-ink-3">
             Booking for a group or company? <a href="/contact?service=training" className="underline">Contact us</a> instead.
           </p>
+          <Photo photo={photos.installerPanel} className="mt-10 hidden max-w-sm lg:block" ratio="aspect-[3/4]" sizes="24rem" />
         </div>
         <div className="border-2 border-ink bg-paper p-5 sm:p-8">
           <TrainingFlow />

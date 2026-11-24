@@ -1,7 +1,7 @@
 import PartnershipForm from "@/components/PartnershipForm";
 import { photos } from "@/content/photos";
 import Partners from "@/components/Partners";
-import { ButtonLink, PageHeader } from "@/components/ui";
+import { ButtonLink, PageHeader, Photo } from "@/components/ui";
 import { publishable, showPlaceholderFlags, site } from "@/config/site";
 import { partners, partnershipTypes } from "@/content/partners";
 import { pageMetadata } from "@/lib/seo";
@@ -18,10 +18,10 @@ export default function PartnershipPage() {
     <>
       <PageHeader
         title="Partnership"
-        photo={photos.lagosNight}
+        photo={photos.partnershipMeeting}
         lede="We work with manufacturers, financiers, installers and public bodies to get reliable, affordable power to more homes, businesses and communities."
       >
-        <ButtonLink href="#enquiry">Send a partnership enquiry</ButtonLink>
+        <ButtonLink href="#enquiry" variant="sun">Send a partnership enquiry</ButtonLink>
       </PageHeader>
 
       <section className="container-x py-14 sm:py-20" aria-labelledby="types-title">
@@ -61,7 +61,9 @@ export default function PartnershipPage() {
               <p>We&apos;re looking for funding and delivery partners. Use the form to start a conversation.</p>
             </div>
           </div>
-          <div className="self-end">
+          <div className="flex flex-col justify-between gap-8">
+            <Photo photo={photos.solarField} ratio="aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />
+            <div>
             <p className="chart-label text-ink-2">Follow the Initiative</p>
             <ul className="mt-3 space-y-2">
               {site.initiativeSocial.map((s) => (
@@ -70,6 +72,7 @@ export default function PartnershipPage() {
                 </li>
               ))}
             </ul>
+            </div>
           </div>
         </div>
       </section>

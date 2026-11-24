@@ -21,7 +21,8 @@ export default function FinanceCalculator() {
             inputMode="numeric"
             className="mt-2 block w-full border border-rule bg-paper px-3 py-3 text-lg font-semibold text-ink"
             value={price ? price.toLocaleString("en-NG") : ""}
-            onChange={(e) => setPrice(Number(e.target.value.replace(/[^\d]/g, "")) || 0)}
+            maxLength={11}
+            onChange={(e) => setPrice(Math.min(Number(e.target.value.replace(/[^\d]/g, "").slice(0, 9)) || 0, 999_999_999))}
           />
         </div>
         <div>

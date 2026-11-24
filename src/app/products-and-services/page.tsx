@@ -32,6 +32,13 @@ const sections = [
   { id: "financing", label: "Payment plans" },
 ];
 
+/** A photograph for each part of a power system. */
+const componentPhotos: Record<string, (typeof photos)[keyof typeof photos]> = {
+  panels: photos.panelCells,
+  inverters: photos.inverterRow,
+  batteries: photos.batteryBank,
+};
+
 const showRapiscan = site.flags.RAPISCAN_PARTNERSHIP_CONFIRMED || site.flags.SHOW_UNCONFIRMED_RAPISCAN;
 
 export default function ProductsPage() {
@@ -40,11 +47,11 @@ export default function ProductsPage() {
     <>
       <PageHeader
         title="Products and services"
-        photo={photos.roofSky}
+        photo={photos.redRoof}
         lede="Complete power systems for homes and businesses, EV charging, security screening, and the engineering services to deliver larger projects."
       >
         <ButtonLink href="/contact" variant="sun">Get a Quote</ButtonLink>
-        <WhatsAppButton />
+        <WhatsAppButton variant="night-outline" />
       </PageHeader>
 
       <div className="container-x lg:grid lg:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] lg:gap-14">
@@ -73,6 +80,7 @@ export default function ProductsPage() {
             <div className="mt-12 grid gap-10 xl:grid-cols-3 xl:gap-8">
               {powerComponents.map((c) => (
                 <div key={c.id} className="border-t-2 border-ink pt-5">
+                  <Photo photo={componentPhotos[c.id]} className="mb-5" ratio="aspect-[3/2]" sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 60vw, 100vw" />
                   <h3 className="font-semiwide text-2xl font-semibold">{c.name}</h3>
                   <p className="mt-2 text-ink-2">{c.role}</p>
                   <dl className="mt-4">
@@ -102,6 +110,7 @@ export default function ProductsPage() {
               <div>
                 <h3 className="h-sub">Already have equipment?</h3>
                 <p className="mt-3 text-ink-2">Our engineers also work on systems we didn&apos;t supply.</p>
+                <Photo photo={photos.roofSky} className="mt-6" ratio="aspect-[16/10]" sizes="(min-width: 1024px) 30vw, 100vw" />
               </div>
               <ul className="border-t border-grid">
                 {supportServices.map((s) => (
@@ -129,6 +138,7 @@ export default function ProductsPage() {
               electrical work behind them: checking the building&apos;s supply, running a dedicated circuit with the right
               protection, and commissioning the charger. Installation and maintenance follow international standards.
             </p>
+            <Photo photo={photos.evCharging} className="mt-10" ratio="aspect-[21/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
             <div className="mt-10 grid gap-0 border-t border-grid md:grid-cols-3">
               {evOfferings.map((o) => (
                 <div key={o.name} className="border-b border-grid py-6 md:border-r md:border-b-0 md:px-6 md:first:pl-0 md:last:border-r-0">
@@ -157,6 +167,7 @@ export default function ProductsPage() {
               ) : null}
             </p>
 
+            <Photo photo={photos.securityCheck} className="mt-10" ratio="aspect-[21/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
             <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.4fr]">
               <div>
                 <h3 className="font-semiwide text-xl font-semibold">Who it&apos;s for</h3>
@@ -194,7 +205,7 @@ export default function ProductsPage() {
               For commercial and industrial projects, estates and investors: the same engineers who install our systems,
               on contract to deliver, oversee or manage yours.
             </p>
-            <Photo photo={photos.crewRoof} className="mt-10" ratio="aspect-[16/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
+            <Photo photo={photos.engineersPlans} className="mt-10" ratio="aspect-[21/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
             <div className="mt-10 space-y-0 border-t-2 border-ink">
               {engineeringServices.map((s) => (
                 <article

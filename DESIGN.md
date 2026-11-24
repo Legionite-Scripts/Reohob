@@ -237,7 +237,7 @@ Content sits in one container (max 84rem) with side gutters of 1rem, 1.5rem from
 
 Lists are ruled, not gridded into cards. The services index is a stack of rows between hairlines that tint to concrete on hover. Sequences such as How it works sit under a 2px ink rule with ring markers on the line and columns divided by hairlines. Figures form a ruled data row.
 
-The inner-page PageHeader is a concrete band. With a photograph, the text takes the left half and the photo fills the right half from the band's top to its bottom edge and out to the viewport edge (min height 36rem). On phones the photo runs full width below the text. On the home hero the photo sits in the grid at 4:5 (5:6 at desktop).
+Every main page opens with a full-width photographic hero (PhotoHero): the photograph fills the band edge to edge and the white text sits on it, kept legible by a green-black scrim (`.hero-scrim`: from the left on desktop, from the bottom on phones). Hero text is measured at 4.9:1 or better against the brightest background behind it. Inner pages use min height 32rem at desktop; the home hero is tall (min(86svh, 50rem)). On a hero the main action is marigold and the secondary action is `night-outline`. Legal pages keep a plain concrete PageHeader with no photo.
 
 The header is sticky (4.5rem) and becomes the compact menu below a 62rem container width. Long pages add a sticky section nav: a left-ruled vertical list at desktop and a horizontal scroller on phones. Phones also get a fixed bottom action bar (WhatsApp, Call, Get a Quote).
 
@@ -278,7 +278,7 @@ Solid, square and direct.
 Every long page ends with a solid tropical-green band. It holds one chapter-size sentence, a pale-leaf lede and a stacked action column: a marigold Get a Quote button, then night-outline WhatsApp and Call buttons.
 
 ### Page Header (signature)
-This is the concrete band opening each inner page: headline-size H1, a large lede in moss grey, and optional actions. When given a photo, the photo fills the right half edge to edge at desktop.
+This opens each inner page: headline-size H1, a large lede and optional actions. Given a photo it renders as a full-width PhotoHero with white text on the image; without one (legal pages) it is a concrete band with a moss-grey lede.
 
 ### Sun-Path Chart (signature)
 Today's sun over Lagos sits under a 2px ink rule inside a concrete band. Marigold is the sun and its hours, ink is the battery, and a dashed laterite line is the panel output. A sun-disc range thumb (marigold with a 2px ink ring) scrubs along a hairline track.

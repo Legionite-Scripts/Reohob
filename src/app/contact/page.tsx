@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import MapEmbed from "@/components/MapEmbed";
 import { CallButton, JsonLd, PageHeader, WhatsAppButton } from "@/components/ui";
+import { photos } from "@/content/photos";
 import { fullAddress, site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -18,6 +19,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         title="Contact us"
+        photo={photos.technicians}
         lede={`One form for every enquiry: a home system, a commercial project, EV charging, screening equipment or training. Phone and online consultations are free.`}
       />
 

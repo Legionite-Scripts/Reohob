@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Download } from "lucide-react";
-import { PageHeader, buttonClass } from "@/components/ui";
+import { PageHeader, Photo, buttonClass } from "@/components/ui";
+import { photos } from "@/content/photos";
 import { site } from "@/config/site";
 import { people } from "@/content/people";
 import { pageMetadata } from "@/lib/seo";
@@ -33,6 +34,7 @@ export default function ManagementPage() {
     <>
       <PageHeader
         title="Management"
+        photo={photos.lagosNight}
         lede={`${site.legalName} is a Lagos-based renewable energy and power engineering company. These are the people who lead it and advise it.`}
         aside={profile.available ? <ProfileButton variant="outline" /> : undefined}
       />
@@ -40,6 +42,7 @@ export default function ManagementPage() {
       <section className="container-x grid gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_1.4fr]" aria-labelledby="story-title">
         <div>
           <h2 id="story-title" className="h-section">Our story</h2>
+          <Photo photo={photos.lagosTower} className="mt-8 max-w-sm" ratio="aspect-[4/5]" sizes="(min-width: 1024px) 24rem, 100vw" />
         </div>
         <div className="prose-chart text-lg text-ink-2">
           <p>

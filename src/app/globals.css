@@ -211,6 +211,16 @@
   .on-night .todo-flag { color: var(--color-sun); background: transparent; border-color: var(--color-sun); }
 }
 
+/* Photographic hero scrim: green-black from the bottom on phones, from the left on desktop. */
+.hero-scrim {
+  background: linear-gradient(to top, rgb(12 26 19 / 0.95) 0%, rgb(12 26 19 / 0.82) 40%, rgb(12 26 19 / 0.45) 75%, rgb(12 26 19 / 0.3) 100%);
+}
+@media (min-width: 64rem) {
+  .hero-scrim {
+    background: linear-gradient(to right, rgb(12 26 19 / 0.92) 0%, rgb(12 26 19 / 0.84) 45%, rgb(12 26 19 / 0.5) 68%, rgb(12 26 19 / 0.12) 100%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

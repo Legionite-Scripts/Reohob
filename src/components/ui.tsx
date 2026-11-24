@@ -139,8 +139,48 @@ export function CloseBand({
 }
 
 /**
- * Inner-page header. Text on warm concrete; when a photograph is given, it fills the right half of the
- * header edge to edge on desktop (full width below the text on phones).
+ * Full-width photographic hero: the photograph fills the band edge to edge and a green-black scrim
+ * keeps the white text legible (from the left on desktop, from the bottom on phones).
+ */
+export function PhotoHero({
+  photo,
+  tall = false,
+  labelledBy,
+  as: Tag = "header",
+  children,
+}: {
+  photo: PhotoData;
+  tall?: boolean;
+  labelledBy?: string;
+  as?: "header" | "section";
+  children: ReactNode;
+}) {
+  return (
+    <Tag className="on-night relative isolate overflow-hidden bg-night text-white" aria-labelledby={labelledBy}>
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        priority
+        sizes="100vw"
+        className="-z-20 object-cover"
+        style={{ objectPosition: photo.focus ?? "50% 50%" }}
+      />
+      <div aria-hidden className="hero-scrim absolute inset-0 -z-10" />
+      <div
+        className={`container-x flex flex-col justify-end pt-44 pb-12 sm:pt-56 sm:pb-16 lg:justify-center lg:py-24 ${
+          tall ? "min-h-[min(86svh,50rem)]" : "lg:min-h-[32rem]"
+        }`}
+      >
+        <div className="max-w-[44rem]">{children}</div>
+      </div>
+    </Tag>
+  );
+}
+
+/**
+ * Inner-page header. With a photograph it is a full-width photographic hero with the text on the
+ * image; without one (legal pages) it is a quiet concrete band.
  */
 export function PageHeader({
   title,
@@ -148,39 +188,33 @@ export function PageHeader({
   children,
   aside,
   photo,
-  photoRatio = "aspect-[4/3]",
 }: {
   title: ReactNode;
   lede?: ReactNode;
   children?: ReactNode;
   aside?: ReactNode;
   photo?: PhotoData;
-  photoRatio?: string;
 }) {
+  if (photo) {
+    return (
+      <PhotoHero photo={photo}>
+        <h1 className="h-page max-w-[18ch] text-white">{title}</h1>
+        {lede ? <p className="mt-5 max-w-[54ch] text-lg text-white/90 sm:text-xl">{lede}</p> : null}
+        {children ? <div className="mt-8 flex flex-wrap gap-3">{children}</div> : null}
+        {aside ? <div className="mt-8">{aside}</div> : null}
+      </PhotoHero>
+    );
+  }
   return (
-    <header className="chart-field-faint relative border-b border-grid">
-      <div
-        className={`container-x grid gap-8 pt-12 pb-12 sm:pt-16 lg:pb-16 ${
-          photo ? "lg:min-h-[36rem] lg:grid-cols-2 lg:items-center lg:py-20" : "lg:grid-cols-[1fr_auto] lg:items-center"
-        }`}
-      >
-        <div className={photo ? "lg:pr-14" : "lg:self-end"}>
+    <header className="chart-field-faint border-b border-grid">
+      <div className="container-x grid gap-8 pt-12 pb-12 sm:pt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:pb-16">
+        <div className="lg:self-end">
           <h1 className="h-page max-w-[18ch]">{title}</h1>
           {lede ? <p className="mt-5 max-w-[56ch] text-lg text-ink-2 sm:text-xl">{lede}</p> : null}
           {children ? <div className="mt-8 flex flex-wrap gap-3">{children}</div> : null}
           {aside ? <div className="mt-8">{aside}</div> : null}
         </div>
       </div>
-      {/* The page's one photograph, at poster scale: full header height, bleeding to the right edge on desktop. */}
-      {photo ? (
-        <Photo
-          photo={photo}
-          ratio={`${photoRatio} lg:aspect-auto lg:h-full`}
-          className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
-          priority
-          sizes="(min-width: 1024px) 50vw, 100vw"
-        />
-      ) : null}
     </header>
   );
 }
@@ -216,7 +250,7 @@ export function Photo({
 }) {
   return (
     <figure className={className}>
-      <div className="relative h-full">
+      <div className="relative">
         <div className={`relative overflow-hidden bg-chart ${ratio}`}>
           <Image
             src={photo.src}
