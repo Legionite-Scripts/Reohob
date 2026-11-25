@@ -42,5 +42,6 @@ next-env.d.ts
 
 # allow the env template
 !.env.example
-/.impeccable/review/
-/.impeccable/work/
+
+# design-tool working files (never commit)
+/.impeccable/
