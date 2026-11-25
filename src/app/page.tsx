@@ -1,37 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Quote } from "lucide-react";
-import SunPathChart from "@/components/SunPathChart";
-import LagosNow from "@/components/LagosNow";
-import ProjectPlate from "@/components/ProjectPlate";
-import Partners from "@/components/Partners";
-import {
-  Photo,
-  PhotoHero,
-  ButtonLink,
-  CloseBand,
-  SampleTag,
-  SectionTitle,
-  TextLink,
-  WhatsAppButton,
-} from "@/components/ui";
-import { financePlan, naira, publishable, showPlaceholderFlags, site } from "@/config/site";
+import "./home.css";
+import HomeEffects from "@/components/home/HomeEffects";
+import SolarDayDemo from "@/components/home/SolarDayDemo";
+import PaymentEstimate from "@/components/home/PaymentEstimate";
+import HomeQuoteForm from "@/components/home/HomeQuoteForm";
+import { naira, site, whatsappHref } from "@/config/site";
 import { trainingPackages } from "@/config/training";
-import { serviceGroups } from "@/content/services";
-import { projects } from "@/content/projects";
-import { testimonials } from "@/content/testimonials";
-import { photos } from "@/content/photos";
 import { partners } from "@/content/partners";
+import { photos } from "@/content/photos";
 import { pageMetadata } from "@/lib/seo";
 
-/** One photograph per service group in the "What we do" index. */
-const servicePhotos: Record<string, { src: string; focus?: string }> = {
-  "power-systems": photos.roofSky,
-  "ev-charging": photos.evCharging,
-  "security-screening": photos.securityCheck,
-  "engineering-services": photos.engineersPlans,
-};
-
+/**
+ * Homepage, built to the designer's layout (index.html, Nov 2026). Styles live in ./home.css, scoped
+ * under .hv. The site's own header and footer wrap it.
+ */
 export const metadata = pageMetadata({
   title: `${site.legalName} | Solar, inverter and battery systems in Lagos`,
   description:
@@ -39,300 +22,385 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
-const steps = [
+const services = [
   {
-    title: "Site survey",
-    body: "We look at what you need to run, your roof or ground space, cabling routes and existing equipment. Phone and online consultations are free.",
-    gets: "Site survey and audit report",
-    photo: photos.stepSurvey,
+    n: "02",
+    title: "EV charging",
+    body: "Charging infrastructure for homes, offices, estates and fleet depots: AC wall chargers, DC fast chargers and solar-paired options.",
+    href: "/products-and-services#ev-charging",
   },
   {
-    title: "Design",
-    body: "We size panels, inverter and batteries to your loads and hours of backup, and draw up the system and a bill of quantities.",
-    gets: "System design, preliminary BOQ and quotation",
-    photo: photos.stepDesign,
+    n: "03",
+    title: "Security screening",
+    body: "Equipment for facilities that screen people and baggage, including X-ray scanners, walk-through metal detectors and explosive trace detection.",
+    href: "/products-and-services#security-screening",
   },
   {
-    title: "Installation",
-    body: `In Lagos we install within ${site.installation.lagosHours} of payment being confirmed; elsewhere on a date we agree with you. Batteries get their first full charge before use.`,
-    gets: "Installed, tested system and a handover walk-through",
-    photo: photos.stepInstall,
-  },
-  {
-    title: "Support",
-    body: "Your warranty, maintenance visits and call-outs come from the same team that installed the system.",
-    gets: "Warranty, maintenance and after-sales support",
-    photo: photos.stepSupport,
+    n: "04",
+    title: "Engineering services",
+    body: "Technical delivery for commercial and industrial projects: EPC, owner's engineering, OEM installation and project management.",
+    href: "/products-and-services#engineering-services",
   },
 ];
 
+const steps = [
+  { num: "01 / DISCOVER", title: "Site survey", body: "We assess your power requirements, appliances, roof or ground space, existing equipment and installation conditions.", gets: "Site survey & audit report" },
+  { num: "02 / DESIGN", title: "System design", body: "We determine the appropriate panels, inverter and battery capacity based on your load requirements and desired backup hours.", gets: "System design, preliminary BOQ & quotation" },
+  { num: "03 / DELIVER", title: "Installation", body: `Our team handles setup, testing and commissioning. Lagos installations are typically completed within ${site.installation.lagosHours} after payment confirmation.`, gets: "Installed, tested system & handover" },
+  { num: "04 / SUPPORT", title: "Ongoing support", body: "Our relationship doesn't end after installation. The same team provides warranty support, maintenance and technical assistance.", gets: "Warranty & after-sales support" },
+];
+
+const reasons = [
+  { title: "Over a decade in business", body: "Experience supporting energy and technical projects across residential and commercial needs." },
+  { title: "One team, end to end", body: "Consultation, assessment, system design, supply, installation and ongoing support coordinated by one engineering team." },
+  { title: "From homes to commercial facilities", body: "Systems spanning 1 kVA home applications through to 100 kVA commercial requirements." },
+  { title: "Professional installation and testing", body: "Installation, commissioning and handover designed to help you understand your system." },
+  { title: "Warranty and after-sales support", body: "Technical assistance and maintenance support beyond the day your system is switched on." },
+  { title: "Free phone and online consultations", body: "Start with a conversation about what you need to power, before deciding on a system." },
+];
+
 export default function HomePage() {
-  const ex = financePlan(site.financing.exampleSystemPrice, site.financing.exampleMonths);
-  const featured = projects.filter((p) => publishable(p)).slice(0, 3);
-  const homePartners = partners.some((p) => p.confirmed);
-  // Home shows confirmed facts only: no "To confirm" figures, whatever the placeholder setting.
-  const trust = [
-    ...site.trust.filter((t) => t.confirmed).map((t) => ({ value: t.value, label: t.label, sub: undefined as string | undefined })),
-    { value: "1–100 kVA", label: "system sizes", sub: "homes to factories" },
-    { value: "24–48 h", label: "install in Lagos", sub: "after payment is confirmed" },
-  ];
+  const partner = partners.find((p) => p.confirmed);
+  const { contact } = site;
 
   return (
-    <>
-      {/* ── Hero: one decisive photograph, the promise, two ways to act ── */}
-      <PhotoHero photo={photos.crewRoof} tall as="section" labelledBy="hero-title">
-            <h1 id="hero-title" className="font-wide max-w-[14ch] text-[clamp(2.6rem,6vw,5.25rem)] leading-[1.02] font-medium tracking-[-0.03em] text-white">
-              Power that stays on, day and night.
+    <div className="hv">
+      <HomeEffects />
+
+      {/* ── Hero ── */}
+      <section className="hero" aria-labelledby="hero-title">
+        <Image
+          className="hero-photo"
+          src={photos.crewRoof.src}
+          alt={photos.crewRoof.alt}
+          fill
+          priority
+          sizes="100vw"
+        />
+        <div className="wrap hero-inner">
+          <div className="hero-copy">
+            <p className="eyebrow">Energy · Engineering · Infrastructure</p>
+            <h1 id="hero-title">
+              Power that stays on,
+              <br />
+              <em>day and night.</em>
             </h1>
-            <p className="mt-6 max-w-[46ch] text-lg text-white/90 sm:text-xl">
-              {site.legalName} designs, supplies and installs solar, inverter and battery systems in Lagos, from
-              1&nbsp;kVA homes to 100&nbsp;kVA commercial sites, and keeps them running.
+            <p className="hero-lede">
+              From homes and businesses to commercial facilities, we design, supply and install solar, inverter and
+              battery systems built around the way you use power. One engineering team, from first consultation to
+              ongoing support.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/contact" variant="sun">Get a Quote</ButtonLink>
-              <WhatsAppButton variant="night-outline" />
+            <div className="hero-actions">
+              <a className="btn" href="#contact">
+                GET A QUOTE <span aria-hidden>↗</span>
+              </a>
+              <a className="btn btn-ghost" href="#services">
+                EXPLORE OUR SOLUTIONS <span aria-hidden>↘</span>
+              </a>
             </div>
-            <div className="mt-6 space-y-1">
-              <LagosNow tone="night" />
-              <p className="pl-[1.375rem] text-sm text-white/75">Phone and online consultations are free.</p>
-            </div>
-      </PhotoHero>
-
-      {/* ── Trust strip: a ruled data row. Unconfirmed figures only appear in placeholder mode. ── */}
-      <section aria-label="Reohob in figures" className="chart-field-faint border-b border-grid">
-        <dl className="container-x grid grid-cols-2 lg:auto-cols-fr lg:grid-flow-col">
-          {trust.map((t, i) => (
-            <div
-              key={t.label}
-              className={`flex flex-col border-grid py-6 ${i % 2 === 0 ? "border-r pr-4" : "pl-4"} ${i < trust.length - 1 ? "border-b lg:border-b-0" : ""} ${
-                i === trust.length - 1 && trust.length % 2 === 1 ? "col-span-2 border-r-0 pl-0 lg:col-span-1" : ""
-              } lg:border-r lg:px-5 lg:first:pl-0 lg:last:border-r-0`}
-            >
-              <dt className="chart-label text-ink-2">{t.label}</dt>
-              <dd className="font-wide mt-1 text-[clamp(1.5rem,2.6vw,2.25rem)] leading-tight font-semibold">{t.value}</dd>
-              {t.sub ? <dd className="text-sm text-ink-3">{t.sub}</dd> : null}
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      {/* ── Four service groups as a chart legend ── */}
-      <section className="container-x py-16 sm:py-24" aria-labelledby="services-title">
-        <SectionTitle id="services-title" lede="One engineering team for the whole job: survey, design, supply, installation and support.">
-          What we do
-        </SectionTitle>
-        <ul className="mt-10 border-t border-grid">
-          {serviceGroups.map((g) => (
-            <li key={g.id} className="border-b border-grid">
-              <Link
-                href={`/products-and-services#${g.id}`}
-                className="group grid gap-4 py-6 transition-colors hover:bg-chart sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[14rem_1fr_1.3fr_auto] lg:items-center lg:gap-8"
-              >
-                <div className="relative aspect-[16/9] overflow-hidden bg-chart sm:row-span-3 sm:aspect-[4/3] lg:row-span-1">
-                  <Image
-                    src={servicePhotos[g.id].src}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 14rem, (min-width: 640px) 11rem, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    style={{ objectPosition: servicePhotos[g.id].focus }}
-                  />
-                </div>
-                <h3 className="h-block sm:text-[1.75rem]">{g.title}</h3>
-                <div className="sm:col-start-2 lg:col-start-auto">
-                  <p className="text-ink-2">{g.summary}</p>
-                  <p className="chart-label mt-2 text-ink-3">{g.spec}</p>
-                </div>
-                <span className="inline-flex items-center gap-2 font-semibold sm:col-start-2 lg:col-start-auto">
-                  Details<span className="sr-only">: {g.title}</span>{" "}
-                  <ArrowRight aria-hidden className="size-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* ── The mechanism: today's sun over Lagos, kept small and honest ── */}
-      <section className="chart-field-faint border-y border-grid py-16 sm:py-20" aria-labelledby="sun-title">
-        <div className="container-x grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-          <div>
-            <SectionTitle
-              id="sun-title"
-              lede="Panels harvest the sun while it's up and charge the batteries. After sunset, and whenever the grid fails, the batteries take over, so the power to your building never drops."
-            >
-              Solar by day, batteries by night
-            </SectionTitle>
-            <p className="mt-5 text-ink-2">
-              The chart shows the sun&apos;s real path over Lagos today. Drag along it to see which part of the system is
-              carrying your building at any hour.
-            </p>
+            <p className="hero-note">Free phone and online consultations.</p>
           </div>
-          <div className="border-t-2 border-ink pt-4">
-            <SunPathChart />
+        </div>
+        <div className="wrap hero-bottom">
+          <div className="hero-stat">
+            <strong>10+ yrs</strong>
+            <span>In business<small>Engineering experience</small></span>
+          </div>
+          <div className="hero-stat">
+            <strong>1–100 kVA</strong>
+            <span>System range<small>Homes to commercial sites</small></span>
+          </div>
+          <div className="hero-stat">
+            <strong>{site.installation.lagosHours.replace(" hours", " h").replace(/ to /, "–")}</strong>
+            <span>Lagos installations<small>After payment confirmation</small></span>
           </div>
         </div>
       </section>
 
-      {/* ── How it works: a real sequence with what you receive at each step ── */}
-      <section className="border-b border-grid py-16 sm:py-24" aria-labelledby="how-title">
-        <div className="container-x">
-          <SectionTitle id="how-title" lede="Every system follows the same four steps, whether it's a flat in Yaba or a factory in Agbara.">
-            How it works
-          </SectionTitle>
-          <ol className="mt-12 grid gap-0 border-t-2 border-ink lg:grid-cols-4">
+      {/* ── Intro ── */}
+      <section className="wrap intro reveal" aria-labelledby="intro-title">
+        <div className="intro-media">
+          <p className="intro-mark">01 / THE REOHOB APPROACH</p>
+          <div className="intro-photo">
+            <Image src={photos.technicians.src} alt={photos.technicians.alt} fill sizes="(min-width: 800px) 460px, 100vw" style={{ objectPosition: "50% 50%" }} />
+          </div>
+        </div>
+        <div>
+          <h2 id="intro-title">Power is essential. Engineering it properly makes all the difference.</h2>
+          <p>
+            Good energy systems start with understanding what you need to power. We bring the right expertise,
+            equipment and installation support together to deliver solutions that work for your space and your
+            operations.
+          </p>
+          <a className="text-link" href="#process">
+            A considered process <span aria-hidden>↗</span>
+          </a>
+        </div>
+      </section>
+
+      {/* ── Services ── */}
+      <section className="section services" id="services" aria-labelledby="services-title">
+        <div className="wrap">
+          <div className="section-head reveal">
+            <div>
+              <p className="eyebrow">What we do</p>
+              <h2 id="services-title">
+                One engineering team.
+                <br />
+                Every step covered.
+              </h2>
+            </div>
+            <p>
+              From the first site assessment to commissioning and ongoing technical support, our work is built around
+              dependable outcomes, not equipment alone.
+            </p>
+          </div>
+          <div className="service-grid">
+            <Link className="service-feature reveal" href="/products-and-services#power-systems">
+              <Image className="feature-img" src={photos.roofSky.src} alt="" fill sizes="(min-width: 800px) 55vw, 100vw" />
+              <span className="service-number">01 / ENERGY SYSTEMS</span>
+              <div>
+                <h3>Solar, inverter &amp; battery systems.</h3>
+                <p>
+                  Power designed around your everyday needs. Integrated systems for homes, offices, businesses and
+                  commercial facilities.
+                </p>
+                <div className="service-tags">
+                  <span>RESIDENTIAL</span>
+                  <span>COMMERCIAL</span>
+                  <span>1–100 kVA</span>
+                </div>
+                <strong className="mono">
+                  Explore energy solutions <span aria-hidden>↗</span>
+                </strong>
+              </div>
+            </Link>
+            <div className="service-stack">
+              {services.map((s, i) => (
+                <Link key={s.n} className={`service-row reveal ${i < 2 ? "delay-1" : "delay-2"}`} href={s.href}>
+                  <span className="service-number">{s.n}</span>
+                  <div>
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                  </div>
+                  <span className="arr" aria-hidden>↗</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Solar by day, batteries by night ── */}
+      <section className="section solar" id="solar" aria-labelledby="solar-title">
+        <div className="wrap">
+          <div className="section-head reveal">
+            <div>
+              <p className="eyebrow">Energy, explained</p>
+              <h2 id="solar-title">
+                Solar by day.
+                <br />
+                Batteries by night.
+              </h2>
+            </div>
+            <p>
+              A well-designed system works as one: capturing energy, storing what you need and helping keep essential
+              loads running when the grid goes off.
+            </p>
+          </div>
+          <div className="solar-layout">
+            <div className="solar-copy reveal">
+              <h3>The sun works during the day. Your batteries take over at night.</h3>
+              <p>
+                Solar panels capture sunlight and power your building while charging your batteries. When the sun goes
+                down or the grid goes off, stored energy can help keep your essential appliances running.
+              </p>
+              <div className="solar-points">
+                <div className="solar-point">
+                  <b>01</b>
+                  <span><strong>Daylight</strong>: panels generate electricity for your building and charge the battery.</span>
+                </div>
+                <div className="solar-point">
+                  <b>02</b>
+                  <span><strong>Evening</strong>: stored energy supports your selected loads after sunset.</span>
+                </div>
+                <div className="solar-point">
+                  <b>03</b>
+                  <span><strong>Overnight</strong>: the inverter manages the supply from your battery bank.</span>
+                </div>
+              </div>
+            </div>
+            <SolarDayDemo />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Process ── */}
+      <section className="section process" id="process" aria-labelledby="process-title">
+        <div className="wrap">
+          <div className="section-head reveal">
+            <div>
+              <p className="eyebrow">Our process</p>
+              <h2 id="process-title">
+                From the first conversation
+                <br />
+                to power on.
+              </h2>
+            </div>
+            <p>
+              Every project starts with understanding what you need. Our engineers work with you through each stage to
+              ensure your system is properly designed, installed and supported.
+            </p>
+          </div>
+          <ol className="process-line">
             {steps.map((s, i) => (
-              <li
-                key={s.title}
-                className="relative grid grid-rows-[auto_auto_auto_1fr_auto] border-b border-grid pt-8 pb-8 lg:border-r lg:border-b-0 lg:px-6 lg:first:pl-0 lg:last:border-r-0"
-              >
-                <span aria-hidden className={`absolute -top-[9px] size-4 rounded-full border-2 border-ink bg-paper ${i === 0 ? "left-0" : "left-0 lg:left-6"}`} />
-                <Photo photo={s.photo} className="mb-5" ratio="aspect-[4/3]" sizes="(min-width: 1024px) 22vw, 100vw" />
-                <p className="font-wide text-5xl font-semibold text-ink" aria-hidden>{i + 1}</p>
-                <h3 className="h-block mt-3 text-xl">
-                  <span className="sr-only">Step {i + 1}: </span>
-                  {s.title}
-                </h3>
-                <p className="mt-2 mb-5 text-ink-2">{s.body}</p>
-                <p className="border-t border-grid pt-3 font-semibold">
-                  <span className="font-normal text-ink-3">You receive: </span>
+              <li key={s.title} className={`process-step reveal ${i === 1 ? "delay-1" : i === 2 ? "delay-2" : ""}`}>
+                <span className="num">{s.num}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+                <p className="deliver">
+                  You receive
+                  <br />
                   {s.gets}
                 </p>
+              </li>
+            ))}
+          </ol>
+          <div className="process-cta">
+            <a className="btn btn-dark" href="#contact">
+              START YOUR PROJECT <span aria-hidden>↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Payment plans ── */}
+      <section className="section payment" id="payment" aria-labelledby="payment-title">
+        <div className="wrap payment-layout">
+          <div className="payment-copy reveal">
+            <p className="eyebrow">Making power accessible</p>
+            <h2 id="payment-title">A better way to plan your power investment.</h2>
+            <p>
+              A reliable power system is an investment in your comfort and productivity. Eligible salary earners,
+              business owners and companies can spread the cost of a system over {site.financing.minMonths}–
+              {site.financing.maxMonths} months, subject to verification.
+            </p>
+            <Link className="text-link" href="/products-and-services#financing">
+              Understand our payment plans <span aria-hidden>↗</span>
+            </Link>
+          </div>
+          <PaymentEstimate />
+        </div>
+      </section>
+
+      {/* ── Training ── */}
+      <section className="section training" id="training" aria-labelledby="training-title">
+        <div className="wrap training-layout">
+          <div className="training-photo reveal">
+            <Image src={photos.trainingHandsOn.src} alt={photos.trainingHandsOn.alt} fill sizes="(min-width: 800px) 45vw, 100vw" style={{ objectPosition: photos.trainingHandsOn.focus }} />
+            <p className="photo-caption">Learn by understanding the work</p>
+          </div>
+          <div className="training-copy reveal delay-1">
+            <p className="eyebrow">Learn · Build · Install</p>
+            <h2 id="training-title">Build practical skills in solar installation.</h2>
+            <p>
+              Learn how solar and inverter systems are designed and installed through practical training with
+              experienced engineers. Whether you&apos;re starting out or building an installation business, our
+              programmes help you develop relevant technical skills.
+            </p>
+            <ul className="training-list">
+              {trainingPackages.map((p) => (
+                <li key={p.id} className="training-item">
+                  <div>
+                    <b>{p.short}</b>
+                    <small>{p.duration}</small>
+                  </div>
+                  <strong>{naira(p.price)}</strong>
+                </li>
+              ))}
+            </ul>
+            <div className="training-actions">
+              <Link className="btn btn-dark" href="/training#register">
+                ENROL FOR TRAINING <span aria-hidden>↗</span>
+              </Link>
+              <Link className="text-link" href="/training#outline">
+                Ask about programmes <span aria-hidden>↗</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Partnership ── */}
+      <section className="partner" id="partnership" aria-labelledby="partner-title">
+        <div className="wrap partner-layout">
+          <div className="reveal">
+            <p className="eyebrow">Partnerships</p>
+            <h2 id="partner-title">Stronger solutions through the right partnerships.</h2>
+            <p>
+              We work with technology providers and industry partners to bring dependable equipment and engineering
+              solutions closer to the people and organisations that need them. Talk to us about distribution, project
+              collaboration and business opportunities.
+            </p>
+            <Link className="btn" href="/partnership#enquiry">
+              PARTNER WITH REOHOB <span aria-hidden>↗</span>
+            </Link>
+          </div>
+          {partner ? (
+            <div className="partner-proof reveal delay-1">
+              <p className="mono">Technology partner</p>
+              <strong className="partner-name">{partner.name}</strong>
+              <small>{partner.kind}</small>
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      {/* ── Why Reohob ── */}
+      <section className="section why" id="why" aria-labelledby="why-title">
+        <div className="wrap why-layout">
+          <div className="why-title reveal">
+            <p className="eyebrow">Why Reohob</p>
+            <h2 id="why-title">More than equipment. Engineering you can count on.</h2>
+            <p>Dependability comes from the decisions made before, during and after installation.</p>
+          </div>
+          <ol className="why-list">
+            {reasons.map((r, i) => (
+              <li key={r.title} className="why-item reveal">
+                <span className="mono" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{r.title}</h3>
+                  <p>{r.body}</p>
+                </div>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      {/* ── Featured projects (hidden at launch until real projects exist) ── */}
-      {featured.length ? (
-        <section className="container-x py-16 sm:py-24" aria-labelledby="projects-title">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionTitle id="projects-title" lede="Homes, offices, factories, estates and screening points.">
-              Projects
-            </SectionTitle>
-            <ButtonLink href="/projects" variant="outline">All projects</ButtonLink>
-          </div>
-          {featured.some((p) => p.sample) ? (
-            <p className="mt-6"><SampleTag>Sample projects: real work and photos will replace these</SampleTag></p>
-          ) : null}
-          <ul className="mt-8 grid gap-8 md:grid-cols-3">
-            {featured.map((p) => (
-              <li key={p.slug}><ProjectPlate project={p} /></li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {/* ── Financing teaser: night, worked example ── */}
-      <section className="chart-field-faint border-b border-grid" aria-labelledby="finance-title">
-        <div className="container-x grid gap-12 py-16 *:min-w-0 sm:py-24 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <div>
-            <SectionTitle id="finance-title" lede="Salary earners, business owners and companies can spread the cost of a system over 1 to 12 months, subject to verification.">
-              Pay over 12 months
-            </SectionTitle>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/products-and-services#financing" variant="primary">How payment plans work</ButtonLink>
-            </div>
-          </div>
-          <figure className="border-t-2 border-ink pt-5">
-            <figcaption className="chart-label text-ink-2">
-              Worked example · {site.financing.monthlyFlatRate * 100}% a month, flat
-            </figcaption>
-            <dl className="mt-5 divide-y divide-grid">
-              <div className="flex flex-wrap justify-between gap-x-4 py-3"><dt className="text-ink-2">Example system price</dt><dd className="font-semibold">{naira(site.financing.exampleSystemPrice)}</dd></div>
-              <div className="flex flex-wrap justify-between gap-x-4 py-3"><dt className="text-ink-2">Interest: 3% × {site.financing.exampleMonths} months</dt><dd className="font-semibold">{naira(ex.interest)}</dd></div>
-              <div className="flex flex-wrap justify-between gap-x-4 py-3"><dt className="text-ink-2">Total repayable</dt><dd className="font-semibold">{naira(ex.total)}</dd></div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 pt-4">
-                <dt className="font-semibold">Monthly payment</dt>
-                <dd className="font-wide text-3xl font-semibold sm:text-4xl">{naira(Math.round(ex.monthly))}</dd>
-              </div>
-            </dl>
-            <p className="mt-4 text-sm text-ink-3">Example only, not a quote. Your price depends on the system we design for you.</p>
-          </figure>
-        </div>
-      </section>
-
-      {/* ── Training teaser ── */}
-      <section className="container-x grid gap-10 py-16 sm:py-24 lg:grid-cols-[1fr_1.2fr]" aria-labelledby="training-title">
-        <div>
-          <SectionTitle id="training-title" lede="Learn to install solar and inverter systems with our engineers, online or on site. Business packages add strategy sessions and mentorship.">
-            Train as an installer
-          </SectionTitle>
-          <div className="mt-8"><ButtonLink href="/training">See the programme</ButtonLink></div>
-          <Photo photo={photos.soldering} className="mt-10" ratio="aspect-[16/10]" sizes="(min-width: 1024px) 40vw, 100vw" />
-        </div>
-        <table className="w-full border-collapse text-left">
-          <caption className="sr-only">Training packages and prices</caption>
-          <thead>
-            <tr className="border-b-2 border-ink">
-              <th scope="col" className="chart-label py-2 text-ink-2">Package</th>
-              <th scope="col" className="chart-label hidden py-2 text-ink-2 sm:table-cell">Format</th>
-              <th scope="col" className="chart-label py-2 text-right text-ink-2">Fee</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trainingPackages.map((p) => (
-              <tr key={p.id} className="border-b border-grid">
-                <th scope="row" className="py-3 pr-3 text-left font-semibold">
-                  {p.short}
-                  <span className="block text-sm font-normal text-ink-3 sm:hidden">{p.duration}</span>
-                </th>
-                <td className="hidden py-3 pr-3 text-ink-2 sm:table-cell">{p.duration}</td>
-                <td className="py-3 text-right font-semibold whitespace-nowrap">{naira(p.price)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-
-      {/* ── Partners: confirmed partners only on Home ── */}
-      {homePartners ? (
-        <section className="border-t border-grid py-14" aria-labelledby="partners-title">
-          <div className="container-x grid gap-6 lg:grid-cols-[1fr_2fr] lg:gap-14">
-            <div>
-              <h2 id="partners-title" className="h-sub">Partners</h2>
-              <TextLink href="/partnership" className="mt-1">Partner with us</TextLink>
-            </div>
-            <Partners confirmedOnly />
-          </div>
-        </section>
-      ) : null}
-
-      {/* ── Testimonials: real quotes only. Labelled slots in placeholder mode; hidden at launch. ── */}
-      {testimonials.length || showPlaceholderFlags ? (
-        <section className="chart-field-faint border-y border-grid py-16 sm:py-20" aria-labelledby="testimonials-title">
-          <div className="container-x">
-            <h2 id="testimonials-title" className="h-section">What customers say</h2>
-            <ul className="mt-10 grid gap-6 md:grid-cols-2">
-              {(testimonials.length
-                ? testimonials
-                : [1, 2].map((n) => ({
-                    quote: "Customer quote goes here: one to three sentences about the system, the installation team or life after the switch.",
-                    name: "Customer name",
-                    detail: `area of Lagos ${n}`,
-                    placeholder: true,
-                  }))
-              ).map((t, i) => (
-                <li key={i}>
-                  <figure className="h-full border border-ink bg-paper p-6 sm:p-8">
-                    <Quote aria-hidden className="size-7 text-sun-deep" />
-                    <blockquote className={`font-semiwide mt-4 text-xl leading-snug font-semibold ${"placeholder" in t ? "text-ink-3" : "text-ink"}`}>
-                      {t.quote}
-                    </blockquote>
-                    <figcaption className="mt-5 flex flex-wrap items-center gap-3 text-ink-2">
-                      <span>{t.name}, {"placeholder" in t ? "area of Lagos" : t.detail}</span>
-                      {"placeholder" in t ? <SampleTag>Sample: replace with a real quote</SampleTag> : null}
-                    </figcaption>
-                  </figure>
-                </li>
+      {/* ── Quote ── */}
+      <section className="quote" id="contact" aria-labelledby="quote-title" data-hide-quick-actions>
+        <div className="wrap quote-layout">
+          <div className="quote-copy reveal">
+            <p className="eyebrow">Let&apos;s talk about your project</p>
+            <h2 id="quote-title">Tell us what you need to keep running.</h2>
+            <p>
+              Whether you&apos;re powering a home, planning a commercial installation or exploring an engineering
+              project, tell us what you have in mind. Our team will help you work out the right solution.
+            </p>
+            <div className="contact-lines">
+              {contact.phones.map((ph) => (
+                <a key={ph.tel} href={`tel:${ph.tel}`}>{ph.display}</a>
               ))}
-            </ul>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              <a href={whatsappHref()} target="_blank" rel="noopener noreferrer">
+                Talk to us on WhatsApp <span aria-hidden>↗</span>
+              </a>
+            </div>
           </div>
-        </section>
-      ) : null}
-
-      <CloseBand />
-    </>
+          <HomeQuoteForm />
+        </div>
+      </section>
+    </div>
   );
 }
