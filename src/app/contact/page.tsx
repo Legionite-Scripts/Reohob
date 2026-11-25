@@ -19,7 +19,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         title="Contact us"
-        photo={photos.technicians}
+        photo={photos.electricianWiring}
         lede={`One form for every enquiry: a home system, a commercial project, EV charging, screening equipment or training. Phone and online consultations are free.`}
       />
 

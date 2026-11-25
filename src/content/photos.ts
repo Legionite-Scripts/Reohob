@@ -23,30 +23,6 @@ const pexels = (slug: string, author?: string) => ({
 });
 
 export const photos = {
-  crewRoof: {
-    src: "/photos/crew-commercial-roof.jpg",
-    width: 2400,
-    height: 1600,
-    alt: "An installation crew in full safety gear fixing panels on a large commercial roof",
-    credit: pexels("solar-technicians-installing-solar-panels-6961085"),
-    focus: "62% 55%",
-  },
-  redRoof: {
-    src: "/photos/technician-red-roof.jpg",
-    width: 2400,
-    height: 1800,
-    alt: "A technician in safety gear wiring solar panels on a red metal roof, with tropical trees behind",
-    credit: pexels("a-male-solar-technician-installing-a-solar-panel-14613940"),
-    focus: "72% 55%",
-  },
-  technicians: {
-    src: "/photos/technicians-hard-hats.jpg",
-    width: 1600,
-    height: 1069,
-    alt: "Two technicians in hard hats and hi-vis vests working together on a solar array",
-    credit: pexels("solar-technicians-installing-solar-panels-8853536"),
-    focus: "60% 50%",
-  },
   electronicsBench: {
     src: "/photos/engineer-electronics-bench.jpg",
     width: 2600,
@@ -54,14 +30,6 @@ export const photos = {
     alt: "An engineer in safety glasses soldering a circuit board at an electronics workbench",
     credit: pexels("woman-soldering-pcb-in-school-19895844", "ThisIsEngineering"),
     focus: "68% 40%",
-  },
-  soldering: {
-    src: "/photos/engineer-soldering.jpg",
-    width: 1600,
-    height: 1067,
-    alt: "Close-up of an engineer soldering components with a magnifier",
-    credit: pexels("engineer-using-a-soldering-iron-to-fix-an-electronic-equpiment-19895705", "ThisIsEngineering"),
-    focus: "55% 45%",
   },
   partnershipMeeting: {
     src: "/photos/lagos-partnership-meeting.jpg",
@@ -111,22 +79,6 @@ export const photos = {
     credit: pexels("security-checkpoint-with-luggage-inspection-29152262", "Sergei Starostin"),
     focus: "50% 45%",
   },
-  engineersPlans: {
-    src: "/photos/engineers-plans-solar-field.jpg",
-    width: 1600,
-    height: 1067,
-    alt: "An engineer and a site manager reviewing plans beside a solar array",
-    credit: pexels("two-electricians-standing-near-the-solar-panels-4254157"),
-    focus: "50% 40%",
-  },
-  solarField: {
-    src: "/photos/solar-field-engineers.jpg",
-    width: 1600,
-    height: 1067,
-    alt: "Two engineers walking between rows of ground-mounted solar panels",
-    credit: pexels("two-electricians-standing-near-the-solar-panels-4254172"),
-    focus: "70% 60%",
-  },
   panelCells: {
     src: "/photos/panel-cells-closeup.jpg", width: 1600, height: 1069,
     alt: "Close-up of the cells and frame of a monocrystalline solar panel",
@@ -138,39 +90,49 @@ export const photos = {
     credit: { author: "Scott Ely, U.S. Department of Energy", site: "Wikimedia Commons", source: "https://commons.wikimedia.org/wiki/File:Ely_000233_166402_510764_4578_(36775932636).jpg", license: "Public domain" },
     focus: "50% 55%",
   },
-  batteryBank: {
-    src: "/photos/battery-bank-check.jpg", width: 1600, height: 1036,
-    alt: "A technician checking a large bank of batteries",
-    credit: pexels("industrial-worker-inspecting-batteries-in-warehouse-36594160", "Heru Dharma"), focus: "55% 50%",
-  },
-  stepSurvey: {
-    src: "/photos/step-survey-roof.jpg", width: 1400, height: 933,
-    alt: "An engineer in safety gear surveying a commercial roof",
-    credit: pexels("solar-technician-installing-solar-panels-6961110"), focus: "45% 50%",
-  },
-  stepDesign: {
-    src: "/photos/step-design-team.jpg", width: 1400, height: 934,
-    alt: "Engineers discussing a design around a workshop desk",
-    credit: pexels("people-sitting-at-desk-in-workshop-and-talking-19895721", "ThisIsEngineering"), focus: "60% 45%",
-  },
-  stepInstall: {
-    src: "/photos/step-install-panels.jpg", width: 1400, height: 935,
-    alt: "An installer in a hard hat and gloves fixing solar panels in place",
-    credit: pexels("solar-technician-installing-solar-panel-8853502"), focus: "40% 45%",
-  },
-  stepSupport: {
-    src: "/photos/step-support-check.jpg", width: 1400, height: 933,
-    alt: "A technician with a clipboard checking a solar array",
-    credit: pexels("solar-technician-inspecting-solar-panel-4254171"), focus: "65% 45%",
-  },
   trainingHandsOn: {
     src: "/photos/training-hands-on-accra.jpg", width: 1600, height: 1067,
     alt: "Two trainees assembling electronics together in a hands-on workshop",
     credit: pexels("young-students-engaged-in-robotics-workshop-33920046", "Zeal Creative Studios"), focus: "50% 45%",
   },
-  installerPanel: {
-    src: "/photos/installer-carrying-panel.jpg", width: 1400, height: 2096,
-    alt: "An installer in a hard hat carrying a solar panel across a roof",
-    credit: pexels("solar-technician-installing-solar-panel-8853507"), focus: "50% 40%",
+  engineerCabling: {
+    src: "/photos/engineer-cabling.jpg", width: 2600, height: 1733,
+    alt: "A Black engineer testing cables in an equipment rack",
+    credit: pexels("crop-focused-ethnic-engineer-using-electric-screwdriver-442151"), focus: "74% 40%",
+  },
+  engineerCity: {
+    src: "/photos/engineer-hardhat-city.jpg", width: 2600, height: 1950,
+    alt: "A Black woman engineer in a hi-vis vest on a site call, holding her hard hat",
+    credit: pexels("woman-engineer-using-phone-8487722"), focus: "55% 18%",
+  },
+  electricianWiring: {
+    src: "/photos/electrician-wiring.jpg", width: 2600, height: 1733,
+    alt: "A Black woman electrician in overalls stripping cable for a new installation",
+    credit: pexels("a-female-electrician-standing-on-a-ladder-and-holding-cables-20500461"), focus: "50% 35%",
+  },
+  fieldEngineer: {
+    src: "/photos/field-engineer-sockets.jpg", width: 2600, height: 1733,
+    alt: "A field engineer in a hard hat testing wall sockets",
+    credit: pexels("an-electrician-repairing-the-ac-power-plugs-and-sockets-442160"), focus: "40% 45%",
+  },
+  engineerKaduna: {
+    src: "/photos/engineer-substation-kaduna.jpg", width: 1600, height: 2126,
+    alt: "A young Nigerian engineer in a hard hat at an electrical substation in Kaduna",
+    credit: pexels("young-engineer-at-electrical-substation-in-nigeria-33915172"), focus: "50% 30%",
+  },
+  engineerFieldPlans: {
+    src: "/photos/engineer-field-plans.jpg", width: 1400, height: 2100,
+    alt: "An African woman engineer in a hard hat reviewing plans in an open field",
+    credit: pexels("a-civil-engineer-using-a-tape-measure-11174202"), focus: "50% 35%",
+  },
+  engineerPortrait: {
+    src: "/photos/engineer-hardhat-portrait.jpg", width: 1200, height: 1600,
+    alt: "A Black woman engineer in a hi-vis vest holding her hard hat",
+    credit: pexels("female-engineer-in-reflective-vest-8487402"), focus: "50% 35%",
+  },
+  batteryBank: {
+    src: "/photos/battery-bank.jpg", width: 860, height: 560,
+    alt: "Rows of large batteries in a battery bank",
+    credit: pexels("industrial-worker-inspecting-batteries-in-warehouse-36594160", "Heru Dharma"), focus: "50% 50%",
   },
 } satisfies Record<string, Photo>;

@@ -18,7 +18,7 @@ export default function Footer() {
       <div className="f-wrap">
         <div className="f-top">
           <div className="f-brand">
-            <Image src="/brand/logo-white.png" alt={`${site.name} Nigeria`} width={894} height={270} sizes="140px" className="h-10 w-auto" />
+            <Image src="/brand/logo-white.png" alt={`${site.name} Energy`} width={1391} height={423} sizes="140px" className="h-10 w-auto" />
             <p>Engineering dependable energy, charging and technical solutions for homes, businesses and industries.</p>
             <address>
               <strong>{site.legalName}</strong>

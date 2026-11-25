@@ -62,7 +62,7 @@ export default function PartnershipPage() {
             </div>
           </div>
           <div className="flex flex-col justify-between gap-8">
-            <Photo photo={photos.solarField} ratio="aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />
+            <Photo photo={photos.engineerFieldPlans} ratio="aspect-[4/5]" sizes="(min-width: 1024px) 40vw, 100vw" />
             <div>
             <p className="chart-label text-ink-2">Follow the Initiative</p>
             <ul className="mt-3 space-y-2">

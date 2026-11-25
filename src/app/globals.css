@@ -120,9 +120,7 @@
     scroll-padding-top: calc(var(--header-h) + 1rem);
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
-  }
+  /* No smooth scrolling: in-page links jump straight to their section (long animated scrolls felt slow). */
 
   body {
     background: var(--color-paper);

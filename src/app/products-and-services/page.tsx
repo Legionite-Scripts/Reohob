@@ -47,7 +47,7 @@ export default function ProductsPage() {
     <>
       <PageHeader
         title="Products and services"
-        photo={photos.redRoof}
+        photo={photos.engineerCity}
         lede="Complete power systems for homes and businesses, EV charging, security screening, and the engineering services to deliver larger projects."
       >
         <ButtonLink href="/contact" variant="sun">Get a Quote</ButtonLink>
@@ -205,7 +205,7 @@ export default function ProductsPage() {
               For commercial and industrial projects, estates and investors: the same engineers who install our systems,
               on contract to deliver, oversee or manage yours.
             </p>
-            <Photo photo={photos.engineersPlans} className="mt-10" ratio="aspect-[21/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
+            <Photo photo={photos.engineerKaduna} className="mt-10" ratio="aspect-[16/9]" sizes="(min-width: 1024px) 60vw, 100vw" />
             <div className="mt-10 space-y-0 border-t-2 border-ink">
               {engineeringServices.map((s) => (
                 <article

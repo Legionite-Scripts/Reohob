@@ -71,8 +71,9 @@ export default function HomePage() {
       <section className="hero" aria-labelledby="hero-title">
         <Image
           className="hero-photo"
-          src={photos.crewRoof.src}
-          alt={photos.crewRoof.alt}
+          style={{ objectPosition: photos.engineerCabling.focus }}
+          src={photos.engineerCabling.src}
+          alt={photos.engineerCabling.alt}
           fill
           priority
           sizes="100vw"
@@ -122,7 +123,7 @@ export default function HomePage() {
         <div className="intro-media">
           <p className="intro-mark">01 / THE REOHOB APPROACH</p>
           <div className="intro-photo">
-            <Image src={photos.technicians.src} alt={photos.technicians.alt} fill sizes="(min-width: 800px) 460px, 100vw" style={{ objectPosition: "50% 50%" }} />
+            <Image src={photos.fieldEngineer.src} alt={photos.fieldEngineer.alt} fill sizes="(min-width: 800px) 460px, 100vw" style={{ objectPosition: photos.fieldEngineer.focus }} />
           </div>
         </div>
         <div>

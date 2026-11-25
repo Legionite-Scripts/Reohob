@@ -65,12 +65,12 @@ export default function Header() {
         Skip to content
       </a>
       <div className="container-x flex h-[var(--header-h)] items-center gap-4">
-        <Link href="/" className="flex min-h-11 min-w-0 shrink items-center" aria-label={`${site.name} home`}>
+        <Link href="/" prefetch className="flex min-h-11 min-w-0 shrink items-center" aria-label={`${site.name} home`}>
           <Image
             src="/brand/logo-black.png"
-            alt={`${site.name} Nigeria`}
-            width={894}
-            height={270}
+            alt={`${site.name} Energy`}
+            width={1391}
+            height={423}
             priority
             className="h-9 w-auto max-w-full object-contain object-left sm:h-10"
           />
@@ -83,6 +83,7 @@ export default function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  prefetch
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className="relative block py-2 text-[0.9375rem] font-medium whitespace-nowrap text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:-bottom-px aria-[current=page]:after:h-[3px] aria-[current=page]:after:bg-sun"
                 >
@@ -95,6 +96,7 @@ export default function Header() {
 
         <Link
           href="/contact"
+          prefetch
           className={buttonClass("sun", "ml-auto min-h-11 shrink-0 px-3.5 py-2 text-sm whitespace-nowrap sm:px-4 @min-[62rem]/header:ml-2")}
         >
           <span>
@@ -130,6 +132,7 @@ export default function Header() {
                 <li key={item.href} className="border-b border-grid">
                   <Link
                     href={item.href}
+                  prefetch
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className="font-semiwide flex items-center justify-between py-4 text-xl font-bold aria-[current=page]:text-ink aria-[current=page]:before:mr-3 aria-[current=page]:before:inline-block aria-[current=page]:before:size-2.5 aria-[current=page]:before:rounded-full aria-[current=page]:before:bg-sun"
                   >
@@ -139,7 +142,7 @@ export default function Header() {
               ))}
             </ul>
             <div className="mt-6 grid gap-3">
-              <Link href="/contact" className={buttonClass("sun", "w-full")}>
+              <Link href="/contact" prefetch className={buttonClass("sun", "w-full")}>
                 Get a Quote
               </Link>
               <WhatsAppButton className="w-full" />

@@ -68,7 +68,7 @@ export default function TrainingFlow() {
       url.searchParams.set("package", id);
       url.hash = "register";
       window.history.replaceState(null, "", url);
-      document.getElementById("register")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      document.getElementById("register")?.scrollIntoView();
       requestAnimationFrame(() => document.querySelector<HTMLInputElement>(`#register input[value="${id}"]`)?.focus({ preventScroll: true }));
     };
     document.addEventListener("click", onClick);

@@ -111,7 +111,7 @@ export default function TrainingPage() {
           <p className="mt-6 text-sm text-ink-3">
             Booking for a group or company? <a href="/contact?service=training" className="underline">Contact us</a> instead.
           </p>
-          <Photo photo={photos.installerPanel} className="mt-10 hidden max-w-sm lg:block" ratio="aspect-[3/4]" sizes="24rem" />
+          <Photo photo={photos.engineerPortrait} className="mt-10 hidden max-w-sm lg:block" ratio="aspect-[3/4]" sizes="24rem" />
         </div>
         <div className="border-2 border-ink bg-paper p-5 sm:p-8">
           <TrainingFlow />
