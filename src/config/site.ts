@@ -38,6 +38,12 @@ export const site = {
 
   contact: {
     email: "info@reohobenergy.com",
+    /** Department addresses shown on the contact page (installation first: it is the main enquiry address there). */
+    emails: [
+      { label: "Installation", email: "installation@reohobenergy.com" },
+      { label: "Partnership", email: "partnership@reohobenergy.com" },
+      { label: "Support", email: "support@reohobenergy.com" },
+    ],
     phones: [
       {
         label: "Main line",

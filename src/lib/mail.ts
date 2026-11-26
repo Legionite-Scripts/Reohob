@@ -47,17 +47,20 @@ export function renderRows(title: string, rows: [string, string | undefined][]) 
   return { text, html };
 }
 
+/** Where form emails go when MAIL_TO is not set: the installation inbox. */
+const formInbox = site.contact.emails[0].email;
+
 export async function sendMail(opts: { subject: string; text: string; html: string; replyTo?: string; to?: string }) {
   if (!mailConfigured()) {
     if (env("MAIL_DRY_RUN") === "true") {
-      console.info(`[mail:dry-run] to=${opts.to || env("MAIL_TO") || site.contact.email} subject=${opts.subject}\n${opts.text}`);
+      console.info(`[mail:dry-run] to=${opts.to || env("MAIL_TO") || formInbox} subject=${opts.subject}\n${opts.text}`);
       return { dryRun: true };
     }
     throw new MailNotConfiguredError();
   }
   await getTransporter().sendMail({
     from: env("MAIL_FROM") || `${site.legalName} website <${env("SMTP_USER")}>`,
-    to: opts.to || env("MAIL_TO") || site.contact.email,
+    to: opts.to || env("MAIL_TO") || formInbox,
     replyTo: opts.replyTo,
     subject: opts.subject,
     text: opts.text,

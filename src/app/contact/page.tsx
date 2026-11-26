@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Contact us and get a quote",
-  description: `Get a quote for a solar, inverter or battery system, EV charging, security screening, EPC or training. Call ${site.contact.phones[0].display}, WhatsApp us, or email ${site.contact.email}. Head office on the Lekki–Epe Expressway, Lagos.`,
+  description: `Get a quote for a solar, inverter or battery system, EV charging, security screening, EPC or training. Call ${site.contact.phones[0].display}, WhatsApp us, or email ${site.contact.emails[0].email}. Head office on the Lekki–Epe Expressway, Lagos.`,
   path: "/contact",
 });
 
@@ -43,10 +43,15 @@ export default function ContactPage() {
                 </div>
               </li>
             ))}
-            <li className="flex gap-4 py-4">
-              <Mail aria-hidden className="mt-1 size-5 shrink-0 text-ink-3" />
-              <a href={`mailto:${contact.email}`} className="-my-2 inline-flex min-h-11 items-center font-semibold break-all hover:underline">{contact.email}</a>
-            </li>
+            {contact.emails.map((e) => (
+              <li key={e.email} className="flex gap-4 py-4">
+                <Mail aria-hidden className="mt-1 size-5 shrink-0 text-ink-3" />
+                <div className="min-w-0">
+                  <a href={`mailto:${e.email}`} className="-my-2 inline-flex min-h-11 items-center font-semibold break-all hover:underline">{e.email}</a>
+                  <p className="text-sm text-ink-3">{e.label}</p>
+                </div>
+              </li>
+            ))}
             <li className="flex gap-4 py-4">
               <MapPin aria-hidden className="mt-1 size-5 shrink-0 text-ink-3" />
               <address className="not-italic">
